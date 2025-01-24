@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub to Professional URL Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #0078d4;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0;
+      font-size: 16px;
+      color: #333;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    button {
+      background-color: #0078d4;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: #005bb5;
+    }
+
+    .output {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #28a745;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>GitHub to Professional URL Converter</h1>
+    <label for="github-url">Enter GitHub URL:</label>
+    <input type="text" id="github-url" placeholder="https://github.com/username/repo" />
+    <button id="convert-btn">Convert to .com URL</button>
+    <div id="output" class="output"></div>
+  </div>
+  <script>
+    document.getElementById('convert-btn').addEventListener('click', function() {
+      const githubUrl = document.getElementById('github-url').value.trim();
+      const output = document.getElementById('output');
+
+      // Validate the input
+      if (!githubUrl.startsWith('https://github.com/')) {
+        output.textContent = 'Please enter a valid GitHub URL.';
+        output.style.color = 'red';
+        return;
+      }
+
+      // Convert the URL to a professional .com format
+      const urlParts = githubUrl.split('/');
+      if (urlParts.length < 5) {
+        output.textContent = 'Please provide a complete GitHub URL.';
+        output.style.color = 'red';
+        return;
+      }
+
+      const username = urlParts[3];
+      const repo = urlParts[4];
+      const professionalUrl = `https://${username}.com/${repo}`;
+      output.textContent = `Professional URL: ${professionalUrl}`;
+      output.style.color = '#28a745';
+    });
+  </script>
+</body>
+</html>
