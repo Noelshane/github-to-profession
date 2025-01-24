@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GitHub to Professional URL Converter</title>
+  <title>TinyURL to Custom .com Link Converter</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -15,7 +15,6 @@
       align-items: center;
       height: 100vh;
     }
-
     .container {
       text-align: center;
       background: #fff;
@@ -25,81 +24,84 @@
       max-width: 400px;
       width: 100%;
     }
-
     h1 {
       color: #0078d4;
     }
-
     label {
       display: block;
       margin: 10px 0;
-      font-size: 16px;
-      color: #333;
     }
-
     input {
       width: 90%;
       padding: 10px;
-      margin: 10px 0;
+      margin-bottom: 15px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      font-size: 14px;
     }
-
     button {
-      background-color: #0078d4;
-      color: #fff;
-      border: none;
       padding: 10px 20px;
+      color: #fff;
+      background-color: #0078d4;
+      border: none;
       border-radius: 5px;
       cursor: pointer;
-      font-size: 14px;
     }
-
     button:hover {
       background-color: #005bb5;
     }
-
     .output {
-      margin-top: 20px;
-      font-size: 16px;
-      color: #28a745;
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #e7f3ff;
+      border: 1px solid #0078d4;
+      border-radius: 5px;
+    }
+    .output a {
+      color: #0078d4;
+      text-decoration: none;
+    }
+    .output a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>GitHub to Professional URL Converter</h1>
-    <label for="github-url">Enter GitHub URL:</label>
-    <input type="text" id="github-url" placeholder="https://github.com/username/repo" />
-    <button id="convert-btn">Convert to .com URL</button>
+    <h1>TinyURL to .com Converter</h1>
+    <label for="tinyurl-input">Enter TinyURL:</label>
+    <input type="text" id="tinyurl-input" placeholder="https://tinyurl.com/example" />
+    <button id="convert-btn">Convert</button>
     <div id="output" class="output"></div>
   </div>
   <script>
-    document.getElementById('convert-btn').addEventListener('click', function() {
-      const githubUrl = document.getElementById('github-url').value.trim();
-      const output = document.getElementById('output');
-
-      // Validate the input
-      if (!githubUrl.startsWith('https://github.com/')) {
-        output.textContent = 'Please enter a valid GitHub URL.';
-        output.style.color = 'red';
+    document.getElementById("convert-btn").addEventListener("click", function () {
+      const tinyurl = document.getElementById("tinyurl-input").value.trim();
+      if (!tinyurl || !tinyurl.startsWith("https://tinyurl.com/")) {
+        alert("Please enter a valid TinyURL link.");
         return;
       }
 
-      // Convert the URL to a professional .com format
-      const urlParts = githubUrl.split('/');
-      if (urlParts.length < 5) {
-        output.textContent = 'Please provide a complete GitHub URL.';
-        output.style.color = 'red';
-        return;
-      }
+      // Generate a custom .com URL
+      const customDomain = tinyurl.replace("https://tinyurl.com/", "https://customdomain.com/");
 
-      const username = urlParts[3];
-      const repo = urlParts[4];
-      const professionalUrl = `https://${username}.com/${repo}`;
-      output.textContent = `Professional URL: ${professionalUrl}`;
-      output.style.color = '#28a745';
+      // Display the new link
+      const outputDiv = document.getElementById("output");
+      outputDiv.innerHTML = `
+        <p>Converted Link:</p>
+        <a href="${tinyurl}" target="_blank">${customDomain}</a>
+      `;
+
+      // Optional: Save the link as a file (simulate)
+      const fileName = "converted-link.txt";
+      const fileContent = `Original Link: ${tinyurl}\nCustom Link: ${customDomain}`;
+      const blob = new Blob([fileContent], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = fileName;
+      link.textContent = "Download Link File";
+      link.style.display = "block";
+      link.style.marginTop = "10px";
+      outputDiv.appendChild(link);
     });
   </script>
 </body>
